@@ -3,6 +3,10 @@ package com.example.ingressacademytask.domains;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -14,6 +18,10 @@ public class Books {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     Author author;
+    @ManyToMany(mappedBy = "currentlyReadingBooks", cascade = CascadeType.REMOVE)
+    List<Student> readers;
 }

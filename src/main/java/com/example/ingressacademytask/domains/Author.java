@@ -21,6 +21,9 @@ public class Author {
     Long authorId;
     String name;
     int age;
-    @OneToMany()
-    List<Books> authoredBooks;
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Books> authoredBooks;
+    @ManyToMany(mappedBy = "subscriptions", cascade = {CascadeType.REMOVE})
+    private List<Student> followers;
+
 }
